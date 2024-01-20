@@ -1,4 +1,5 @@
 using IdentityWebAPI.Data;
+using IdentityWebAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +36,8 @@ namespace IdentityWebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IdentityWebAPI", Version = "v1" });
             });
 
+            services.AddHttpContextAccessor();
+            services.AddScoped<IImageRepository, LocalImageRepository>();
             services.AddDbContext<IdentityDataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnectionString")));
         }
