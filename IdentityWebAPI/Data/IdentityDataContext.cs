@@ -1,0 +1,17 @@
+﻿using IdentityWebAPI.Models.Domain;
+using Microsoft.EntityFrameworkCore;
+
+namespace IdentityWebAPI.Data
+{
+    public class IdentityDataContext : DbContext
+    {
+        public IdentityDataContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        {
+
+        }
+
+        public DbSet<Image> Images { get; set; }
+
+        public DbSet<Identity> Identities { get; set; }
+    }
+}
