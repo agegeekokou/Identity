@@ -23,7 +23,7 @@ namespace IdentityWebAPI.Repositories
         public Image Upload(Image image)
         {
             var localFilePath = Path.Combine(webHostEnvironment.ContentRootPath, "Images",
-                image.FileName, image.FileExtension);
+                $"{image.FileName}{image.FileExtension}");
 
             //Upload image to local path
             using var stream = new FileStream(localFilePath, FileMode.Create);
