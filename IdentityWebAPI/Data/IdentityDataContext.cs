@@ -13,5 +13,13 @@ namespace IdentityWebAPI.Data
         public DbSet<Image> Images { get; set; }
 
         public DbSet<Identity> Identities { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Identity>()
+                .HasOne(i => i.Image)
+                .WithOne()
+                .HasForeignKey<Identity>(i => i.ImageId);
+        }
     }
 }

@@ -42,6 +42,10 @@ namespace IdentityWebAPI
             services.AddHttpContextAccessor();
             services.AddScoped<IImageRepository, LocalImageRepository>();
             services.AddScoped<IImageService, LocalImageService>();
+
+            services.AddScoped<IIdentityRepository, IdentityRepository>();
+            services.AddScoped<IIdentityService, IdentityService>();
+
             services.AddDbContext<IdentityDataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnectionString")));
         }
