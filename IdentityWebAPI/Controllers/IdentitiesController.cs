@@ -1,6 +1,8 @@
 ﻿using IdentityWebAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace IdentityWebAPI.Controllers
 {
@@ -9,15 +11,26 @@ namespace IdentityWebAPI.Controllers
     public class IdentitiesController : ControllerBase
     {
         private readonly IIdentityService service;
-        public IdentitiesController(IIdentityService service)
+        private readonly ILogger<IdentitiesController> logger;
+        public IdentitiesController(IIdentityService service, ILogger<IdentitiesController> logger)
         {
             this.service = service;
+            this.logger = logger;
         }
 
         [HttpGet]
         public IActionResult GetAllIdentities()
         {
+            logger.LogTrace("This is a Trace log, the most detailed information.");
+            logger.LogDebug("This is a Debug log, useful for debugging.");           
+            logger.LogInformation("GetAllIdentities action method was invoked");
+            logger.LogWarning("This is a Warning log, indicating a potential issue.");
+            logger.LogError("This is an Error log, indicating a failure in the current operation.");
+            logger.LogCritical("This is a Critical log, indicating a serious failure in the application.");
+
             var result = service.GetAllIdentities();
+
+            logger.LogInformation($"Finished GetAllIdentities request with data: {JsonSerializer.Serialize(result)}");
 
             return Ok(result);
         }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,6 +71,9 @@ namespace IdentityWebAPI
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
                 RequestPath = "/Images"
             });
+
+            // Configure Serilog for logging
+            app.UseSerilogRequestLogging();
 
             app.UseEndpoints(endpoints =>
             {

@@ -30,7 +30,6 @@ namespace IdentityWebAPI.Repositories
             dataContext.SaveChanges();
 
             return identity;
-
         }
 
         public Identity UpdateIdentity(int id, Identity identity)
@@ -50,7 +49,6 @@ namespace IdentityWebAPI.Repositories
             dataContext.SaveChanges();
 
             return identityData;
-
         }
 
         public Identity DeleteIdentity(int id)
