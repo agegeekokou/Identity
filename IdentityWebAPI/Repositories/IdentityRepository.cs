@@ -14,9 +14,21 @@ namespace IdentityWebAPI.Repositories
             this.dataContext = dataContext;
         }
 
-        public IEnumerable<Identity> GetAllIdentities()
+        public IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null)
         {
-            return dataContext.Identities.Include(i => i.Image).ToList();
+            var results = dataContext.Identities.Include(i => i.Image).AsQueryable();
+
+            //Filtering
+            if(string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
+            {
+                if(filterOn.Equals("Name", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    results = results.Where(x => x.Name.Contains(filterQuery));
+                }
+            }
+
+            return results.ToList();
+            //return dataContext.Identities.Include(i => i.Image).ToList();
         }
 
         public Identity GetIdentityById(int id)

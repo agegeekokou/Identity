@@ -5,7 +5,7 @@ namespace IdentityWebAPI.Repositories
 {
     public interface IIdentityRepository
     {
-        IEnumerable<Identity> GetAllIdentities(); 
+        IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null); 
 
         Identity GetIdentityById(int id);
 

@@ -19,16 +19,16 @@ namespace IdentityWebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllIdentities()
+        public IActionResult GetAllIdentities([FromQuery] string? filterOn, [FromQuery] string? filterQuery)
         {
-            logger.LogTrace("This is a Trace log, the most detailed information.");
-            logger.LogDebug("This is a Debug log, useful for debugging.");           
+            //logger.LogTrace("This is a Trace log, the most detailed information.");
+            //logger.LogDebug("This is a Debug log, useful for debugging.");           
             logger.LogInformation("GetAllIdentities action method was invoked");
-            logger.LogWarning("This is a Warning log, indicating a potential issue.");
-            logger.LogError("This is an Error log, indicating a failure in the current operation.");
-            logger.LogCritical("This is a Critical log, indicating a serious failure in the application.");
+            //logger.LogWarning("This is a Warning log, indicating a potential issue.");
+            //logger.LogError("This is an Error log, indicating a failure in the current operation.");
+            //logger.LogCritical("This is a Critical log, indicating a serious failure in the application.");
 
-            var result = service.GetAllIdentities();
+            var result = service.GetAllIdentities(filterOn, filterQuery);
 
             logger.LogInformation($"Finished GetAllIdentities request with data: {JsonSerializer.Serialize(result)}");
 
