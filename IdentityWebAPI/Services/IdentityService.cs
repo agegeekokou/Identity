@@ -12,9 +12,10 @@ namespace IdentityWebAPI.Services
             this.repository = repository;
         }
 
-        public IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null)
+        public IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null,
+            string? sortBy = null, bool isAscending = true)
         {
-            return repository.GetAllIdentities(filterOn, filterQuery);
+            return repository.GetAllIdentities(filterOn, filterQuery, sortBy, isAscending);
         }
 
         public Identity GetIdentityById(int id)

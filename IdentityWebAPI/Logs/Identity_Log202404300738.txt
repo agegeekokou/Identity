@@ -1,0 +1,3 @@
+2024-04-30 07:38:41.574 +02:00 [INF] GetAllIdentities action method was invoked
+2024-04-30 07:38:41.580 +02:00 [INF] Finished GetAllIdentities request with data: [{"Id":11,"Name":"Brian Oneil","Age":37,"City":"Berlin","ImageId":12,"Image":{"Id":12,"File":null,"FileName":"BrianO\u0027neil","FileDescription":null,"FileExtension":".jpg","FileSizeInBytes":16808,"FilePath":"https://localhost:44373/Images/BrianO\u0027neil.jpg"}},{"Id":24,"Name":"Brice Kutson","Age":38,"City":"Brussels","ImageId":25,"Image":{"Id":25,"File":null,"FileName":"BriceKutson","FileDescription":null,"FileExtension":".jpg","FileSizeInBytes":7097,"FilePath":"https://localhost:44373/Images/BriceKutson.jpg"}}]
+2024-04-30 07:38:41.588 +02:00 [INF] HTTP GET /api/Identities responded 200 in 14.0959 ms

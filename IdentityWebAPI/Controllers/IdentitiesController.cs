@@ -19,7 +19,8 @@ namespace IdentityWebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllIdentities([FromQuery] string? filterOn, [FromQuery] string? filterQuery)
+        public IActionResult GetAllIdentities([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
+            [FromQuery] string? sortBy, [FromQuery] bool? isAscending)
         {
             //logger.LogTrace("This is a Trace log, the most detailed information.");
             //logger.LogDebug("This is a Debug log, useful for debugging.");           
@@ -28,7 +29,7 @@ namespace IdentityWebAPI.Controllers
             //logger.LogError("This is an Error log, indicating a failure in the current operation.");
             //logger.LogCritical("This is a Critical log, indicating a serious failure in the application.");
 
-            var result = service.GetAllIdentities(filterOn, filterQuery);
+            var result = service.GetAllIdentities(filterOn, filterQuery, sortBy, isAscending ?? true);
 
             logger.LogInformation($"Finished GetAllIdentities request with data: {JsonSerializer.Serialize(result)}");
 

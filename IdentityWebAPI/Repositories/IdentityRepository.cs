@@ -14,7 +14,8 @@ namespace IdentityWebAPI.Repositories
             this.dataContext = dataContext;
         }
 
-        public IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null)
+        public IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null,
+            string? sortBy = null, bool isAscending = true)
         {
             var results = dataContext.Identities.Include(i => i.Image).AsQueryable();
 
@@ -24,6 +25,19 @@ namespace IdentityWebAPI.Repositories
                 if(filterOn.Equals("Name", System.StringComparison.OrdinalIgnoreCase))
                 {
                     results = results.Where(x => x.Name.Contains(filterQuery));
+                }
+            }
+
+            //Sorting
+            if(string.IsNullOrWhiteSpace(sortBy) == false)
+            {
+                if(sortBy.Equals("Name", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    results = isAscending ? results.OrderBy(x => x.Name) : results.OrderByDescending(x => x.Name);
+                }
+                else if (sortBy.Equals("Age", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    results = isAscending ? results.OrderBy(x => x.Age) : results.OrderByDescending(x => x.Age);
                 }
             }
 

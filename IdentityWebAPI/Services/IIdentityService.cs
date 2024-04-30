@@ -5,7 +5,8 @@ namespace IdentityWebAPI.Services
 {
     public interface IIdentityService
     {
-        IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null);
+        IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null,
+            string? sortBy = null, bool isAscending = true);
 
         Identity GetIdentityById(int id);
 
