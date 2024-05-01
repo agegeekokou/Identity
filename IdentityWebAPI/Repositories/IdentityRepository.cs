@@ -15,7 +15,7 @@ namespace IdentityWebAPI.Repositories
         }
 
         public IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null,
-            string? sortBy = null, bool isAscending = true)
+            string? sortBy = null, bool isAscending = true, int pageNumber = 1, int pageSize = 100)
         {
             var results = dataContext.Identities.Include(i => i.Image).AsQueryable();
 
@@ -41,8 +41,10 @@ namespace IdentityWebAPI.Repositories
                 }
             }
 
-            return results.ToList();
-            //return dataContext.Identities.Include(i => i.Image).ToList();
+            //Pagination
+            var skipResults = (pageNumber - 1) * pageSize;
+
+            return results.Skip(skipResults).Take(pageSize).ToList();
         }
 
         public Identity GetIdentityById(int id)

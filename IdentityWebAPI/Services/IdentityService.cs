@@ -13,9 +13,9 @@ namespace IdentityWebAPI.Services
         }
 
         public IEnumerable<Identity> GetAllIdentities(string? filterOn = null, string? filterQuery = null,
-            string? sortBy = null, bool isAscending = true)
+            string? sortBy = null, bool isAscending = true, int pageNumber = 1, int pageSize = 100)
         {
-            return repository.GetAllIdentities(filterOn, filterQuery, sortBy, isAscending);
+            return repository.GetAllIdentities(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
         }
 
         public Identity GetIdentityById(int id)
