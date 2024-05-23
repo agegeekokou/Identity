@@ -1,0 +1,1 @@
+2024-05-04 12:44:15.028 +02:00 [INF] HTTP POST /api/Auth/Register responded 200 in 2170.4161 ms

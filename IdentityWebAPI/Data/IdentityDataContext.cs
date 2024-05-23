@@ -5,7 +5,7 @@ namespace IdentityWebAPI.Data
 {
     public class IdentityDataContext : DbContext
     {
-        public IdentityDataContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public IdentityDataContext(DbContextOptions<IdentityDataContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }

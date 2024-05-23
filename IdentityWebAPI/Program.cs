@@ -17,22 +17,13 @@ namespace IdentityWebAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //var logger = new LoggerConfiguration()
-            //    .WriteTo.Console()
-            //    .WriteTo.File("Logs/Identity_Log.txt", rollingInterval: RollingInterval.Minute)
-            //    .MinimumLevel.Information()
-            //    .CreateLogger();
-
-            //builder.Logging.ClearProviders();
-            //builder.Logging.AddSerilog(logger);
-
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(builder.Configuration)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .WriteTo.File("Logs/Identity_Log.txt")
                 .CreateLogger();
-            builder.Host.UseSerilog(); // Use Serilog for logging
+            builder.Host.UseSerilog(); 
 
             // Add serilog services to the container and read config from appsettings
             builder.Host.UseSerilog((context, configuration) =>

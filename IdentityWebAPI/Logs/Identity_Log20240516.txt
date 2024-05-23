@@ -1,0 +1,5 @@
+2024-05-16 07:14:24.445 +02:00 [INF] HTTP POST /api/Auth/Login responded 200 in 1868.3323 ms
+2024-05-16 07:15:39.852 +02:00 [WRN] Invalid password for user.
+2024-05-16 07:15:39.853 +02:00 [INF] HTTP POST /api/Auth/Login responded 400 in 67.8142 ms
+2024-05-16 07:15:57.883 +02:00 [INF] HTTP POST /api/Auth/Login responded 200 in 23.0573 ms
+2024-05-16 07:22:19.894 +02:00 [INF] HTTP POST /api/Auth/Login responded 200 in 1937.8715 ms

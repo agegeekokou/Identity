@@ -62,18 +62,61 @@ namespace IdentityWebAPI.Repositories
 
         public Identity UpdateIdentity(int id, Identity identity)
         {
+            //var identityData = dataContext.Identities.Include(i => i.Image).FirstOrDefault(x => x.Id == id);
+
+            //if(identityData == null)
+            //{
+            //    return null;
+            //}
+
+            //identityData.Name = identity.Name;
+            //identityData.Age = identity.Age;
+            //identityData.City = identity.City;
+            //identityData.Image = identity.Image;
+
+            //dataContext.SaveChanges();
+
+            //return identityData;
+
             var identityData = dataContext.Identities.Include(i => i.Image).FirstOrDefault(x => x.Id == id);
 
-            if(identityData == null)
+            if (identityData == null)
             {
                 return null;
             }
 
+            // Update the simple properties
             identityData.Name = identity.Name;
             identityData.Age = identity.Age;
             identityData.City = identity.City;
-            identityData.Image = identity.Image;
 
+            // Update the image entity
+            if (identity.Image != null)
+            {
+                if (identityData.Image != null && identityData.Image.Id != identity.Image.Id)
+                {
+                    // Detach the existing image entity
+                    dataContext.Entry(identityData.Image).State = EntityState.Detached;
+                }
+
+                // Attach the new image entity
+                var existingImage = dataContext.Images.Local.FirstOrDefault(img => img.Id == identity.Image.Id);
+                if (existingImage != null)
+                {
+                    // Use the already tracked entity
+                    dataContext.Entry(existingImage).CurrentValues.SetValues(identity.Image);
+                    identityData.Image = existingImage;
+                }
+                else
+                {
+                    // Attach the new entity
+                    dataContext.Images.Attach(identity.Image);
+                    identityData.Image = identity.Image;
+                }
+            }
+
+            // Mark the identityData as modified
+            dataContext.Entry(identityData).State = EntityState.Modified;
             dataContext.SaveChanges();
 
             return identityData;

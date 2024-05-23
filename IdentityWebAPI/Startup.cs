@@ -1,6 +1,7 @@
 using IdentityWebAPI.Data;
 using IdentityWebAPI.Repositories;
 using IdentityWebAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -18,6 +19,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityWebAPI
 {
@@ -35,9 +39,33 @@ namespace IdentityWebAPI
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "IdentityWebAPI", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "IdentityWebAPI", Version = "v1" });
+                options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            },
+                            Scheme = "Oauth2",
+                            Name = JwtBearerDefaults.AuthenticationScheme,
+                            In = ParameterLocation.Header
+                        },
+                        new List<string>()
+                    }
+                });
             });
 
             services.AddHttpContextAccessor();
@@ -47,8 +75,43 @@ namespace IdentityWebAPI
             services.AddScoped<IIdentityRepository, IdentityRepository>();
             services.AddScoped<IIdentityService, IdentityService>();
 
+            services.AddScoped<ITokenRepository, TokenRepository>();
+            services.AddScoped<ITokenService, TokenService>();
+
             services.AddDbContext<IdentityDataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnectionString")));
+
+            services.AddDbContext<IdentityAuthDataContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("IdentityAuthConnectionString")));
+
+            services.AddIdentityCore<IdentityUser>()
+                .AddRoles<IdentityRole>()
+                .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("Identity")
+                .AddEntityFrameworkStores< IdentityAuthDataContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+            });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +128,9 @@ namespace IdentityWebAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),

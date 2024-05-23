@@ -1,4 +1,5 @@
 ﻿using IdentityWebAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,6 +20,7 @@ namespace IdentityWebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Reader,Writer")]
         public IActionResult GetAllIdentities([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
             [FromQuery] string? sortBy, [FromQuery] bool? isAscending,
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 100)
@@ -39,6 +41,7 @@ namespace IdentityWebAPI.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize(Roles = "Reader,Writer")]
         public IActionResult GetIdentityById(int id)
         {
             var result = service.GetIdentityById(id);
@@ -52,6 +55,7 @@ namespace IdentityWebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Writer")]
         public IActionResult CreateIdentity(Models.DTO.AddIdentityRequest addIdentityRequest)
         {
             //Request (DTO) to domain model
@@ -83,6 +87,7 @@ namespace IdentityWebAPI.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize(Roles = "Writer")]
         public IActionResult UpdateIdentity([FromRoute] int id, [FromBody] Models.DTO.UpdateIdentityRequest updateIdentityRequest)
         {
             //Convert DTO to Domain model
@@ -118,6 +123,7 @@ namespace IdentityWebAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Writer")] 
         public IActionResult DeleteIdentity(int id)
         {
             var identity = service.DeleteIdentity(id);

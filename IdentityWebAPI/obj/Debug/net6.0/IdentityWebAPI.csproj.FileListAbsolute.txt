@@ -84,3 +84,10 @@ C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\Serilog.Sin
 C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\System.Text.Encodings.Web.dll
 C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\System.Text.Json.dll
 C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\delal\source\repos\Identity\IdentityWebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
