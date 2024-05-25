@@ -1,4 +1,5 @@
-﻿using IdentityWebAPI.Services;
+﻿using IdentityWebAPI.CustomActionFilters;
+using IdentityWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace IdentityWebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Reader,Writer")]
+        //[Authorize(Roles = "Reader,Writer")]
         public IActionResult GetAllIdentities([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
             [FromQuery] string? sortBy, [FromQuery] bool? isAscending,
             [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 100)
@@ -41,7 +42,7 @@ namespace IdentityWebAPI.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
-        [Authorize(Roles = "Reader,Writer")]
+        //[Authorize(Roles = "Reader,Writer")]
         public IActionResult GetIdentityById(int id)
         {
             var result = service.GetIdentityById(id);
@@ -55,24 +56,25 @@ namespace IdentityWebAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Writer")]
-        public IActionResult CreateIdentity(Models.DTO.AddIdentityRequest addIdentityRequest)
+        //[Authorize(Roles = "Writer")]
+        [ValidateModel]
+        public IActionResult CreateIdentity(Models.DTO.AddIdentityRequestDto addIdentityRequestDto)
         {
             //Request (DTO) to domain model
             var identity = new Models.Domain.Identity()
             {
-                Name = addIdentityRequest.Name,
-                Age = addIdentityRequest.Age,
-                City = addIdentityRequest.City,
-                ImageId = addIdentityRequest.ImageId,
-                Image = addIdentityRequest.Image
+                Name = addIdentityRequestDto.Name,
+                Age = addIdentityRequestDto.Age,
+                City = addIdentityRequestDto.City,
+                ImageId = addIdentityRequestDto.ImageId,
+                Image = addIdentityRequestDto.Image
             };
 
             //Pass details to service
             identity = service.CreateIdentity(identity);
 
             //Convert back to DTO
-            var identityDTO = new Models.DTO.Identity()
+            var identityDTO = new Models.DTO.IdentityDto()
             {
                 Id = identity.Id,
                 Name = identity.Name,
@@ -87,17 +89,18 @@ namespace IdentityWebAPI.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        [Authorize(Roles = "Writer")]
-        public IActionResult UpdateIdentity([FromRoute] int id, [FromBody] Models.DTO.UpdateIdentityRequest updateIdentityRequest)
+        //[Authorize(Roles = "Writer")]
+        [ValidateModel]
+        public IActionResult UpdateIdentity([FromRoute] int id, [FromBody] Models.DTO.UpdateIdentityRequestDto updateIdentityRequestDto)
         {
             //Convert DTO to Domain model
             var identity = new Models.Domain.Identity()
             {
-                Name = updateIdentityRequest.Name,
-                Age = updateIdentityRequest.Age,
-                City = updateIdentityRequest.City,
-                ImageId = updateIdentityRequest.ImageId,
-                Image = updateIdentityRequest.Image
+                Name = updateIdentityRequestDto.Name,
+                Age = updateIdentityRequestDto.Age,
+                City = updateIdentityRequestDto.City,
+                ImageId = updateIdentityRequestDto.ImageId,
+                Image = updateIdentityRequestDto.Image
             };
 
             //Update Identity using service
@@ -109,7 +112,7 @@ namespace IdentityWebAPI.Controllers
             }
 
             //Convert Domain back to DTO
-            var identityDTO = new Models.DTO.Identity()
+            var identityDTO = new Models.DTO.IdentityDto()
             {
                 Id = identity.Id,
                 Name = identity.Name,
@@ -123,7 +126,7 @@ namespace IdentityWebAPI.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Writer")] 
+        //[Authorize(Roles = "Writer")] 
         public IActionResult DeleteIdentity(int id)
         {
             var identity = service.DeleteIdentity(id);
@@ -134,7 +137,7 @@ namespace IdentityWebAPI.Controllers
             }
 
             //Convert response back to DTO
-            var identityDTO = new Models.DTO.Identity()
+            var identityDTO = new Models.DTO.IdentityDto()
             {
                 Id = identity.Id,
                 Name = identity.Name,
